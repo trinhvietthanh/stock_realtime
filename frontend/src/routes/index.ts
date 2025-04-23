@@ -1,8 +1,8 @@
-import AddTaskIcon from '@mui/icons-material/AddTask';
-import BugReportIcon from '@mui/icons-material/BugReport';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import ArticleIcon from '@mui/icons-material/Article';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import HomeIcon from '@mui/icons-material/Home';
-import TerrainIcon from '@mui/icons-material/Terrain';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import StoreIcon from '@mui/icons-material/Store';
 
 import asyncComponentLoader from '@/utils/loader';
 
@@ -18,30 +18,25 @@ const routes: Routes = [
   {
     component: asyncComponentLoader(() => import('@/pages/Page1')),
     path: '/page-1',
-    title: 'Page 1',
-    icon: GitHubIcon,
+    title: 'Tin tức',
+    icon: ArticleIcon, // Tin tức → Bài báo
   },
   {
     component: asyncComponentLoader(() => import('@/pages/Page2')),
     path: '/page-2',
-    title: 'Page 2',
-    icon: AddTaskIcon,
+    title: 'Dự báo',
+    icon: ShowChartIcon, // Dự báo → Biểu đồ xu hướng
   },
   {
     component: asyncComponentLoader(() => import('@/pages/Page3')),
     path: '/page-3',
-    title: 'Page 3',
-    icon: TerrainIcon,
-  },
-  {
-    component: asyncComponentLoader(() => import('@/pages/Page4')),
-    path: '/page-4',
-    title: 'Page 4',
-    icon: BugReportIcon,
+    title: 'Mua vàng ở đâu',
+    icon: StoreIcon, // Mua vàng → Cửa hàng
   },
   {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',
+    icon: ErrorOutlineIcon, // Trang lỗi
   },
 ];
 

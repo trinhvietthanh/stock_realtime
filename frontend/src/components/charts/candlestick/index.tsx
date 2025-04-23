@@ -22,8 +22,7 @@ const generateFakeCandle = (prev: Candle): Candle => {
 const GoldChartECharts: React.FC = () => {
     const [data, setData] = useState<Candle[]>([]);
     const [latestPrice, setLatestPrice] = useState<number | null>(null);
-    const timerRef = useRef<NodeJS.Timer | null>(null);
-
+    const timerRef = useRef<number | null>(null);
     useEffect(() => {
         const now = Math.floor(Date.now() / 1000) * 1000;
         const candles: Candle[] = [];
@@ -40,9 +39,9 @@ const GoldChartECharts: React.FC = () => {
         }
 
         setData(candles);
-        setLatestPrice(candles[candles.length - 1][2]); // close
+        setLatestPrice(candles[candles.length - 1][2]);
 
-        timerRef.current = setInterval(() => {
+        timerRef.current = window.setInterval(() => {
             setData((prev) => {
                 const next = generateFakeCandle(prev[prev.length - 1]);
                 const newData = [...prev.slice(1), next];
@@ -56,6 +55,7 @@ const GoldChartECharts: React.FC = () => {
         };
     }, []);
 
+
     const getOption = (): echarts.EChartsOption => ({
         tooltip: {
             trigger: 'axis',
@@ -65,7 +65,7 @@ const GoldChartECharts: React.FC = () => {
         },
         xAxis: {
             type: 'time',
-            boundaryGap: false,
+            boundaryGap: ['0%', '0%'],
         },
         yAxis: {
             scale: true,
