@@ -12,7 +12,7 @@ const historySchema = mongoose.Schema(
       type: String,
     },
     close: {
-      type: Float32Array,
+      type: String,
     },
     high: {
       type: String,

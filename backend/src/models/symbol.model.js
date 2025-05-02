@@ -18,7 +18,7 @@ const symbolSchema = mongoose.Schema(
       type: String,
     },
     price: {
-      type: Float32Array,
+      type: String,
     },
     vendorApi: {
       type: String,
