@@ -1,4 +1,3 @@
-import GitHubIcon from '@mui/icons-material/GitHub';
 import ThemeIcon from '@mui/icons-material/InvertColors';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Tooltip } from '@mui/material';
@@ -25,6 +24,14 @@ function Header() {
     });
   }
 
+  function handleLogout() {
+    // Remove access token from localStorage
+    localStorage.removeItem('accessKey');
+    localStorage.removeItem('refreshKey');
+
+    console.log('User logged out');
+  }
+
   return (
     <AppBar
       position="static"
@@ -49,7 +56,7 @@ function Header() {
               {title}
             </Button>
           </Stack>
-          <Stack direction="row" alignItems="center">
+          <Stack direction="row" alignItems="center" gap={1}>
             <Tooltip title="Hot keys" arrow>
               <HotKeysButton
                 size="small"
@@ -60,13 +67,7 @@ function Header() {
                 alt + k
               </HotKeysButton>
             </Tooltip>
-            <Divider orientation="vertical" flexItem />
-            <Tooltip title="It's open source" arrow>
-              <IconButton color="info" size="large" component="a" href={repository} target="_blank">
-                <GitHubIcon />
-              </IconButton>
-            </Tooltip>
-            <Divider orientation="vertical" flexItem />
+         
             <Tooltip title="Switch theme" arrow>
               <IconButton
                 color="info"
@@ -78,6 +79,10 @@ function Header() {
                 <ThemeIcon />
               </IconButton>
             </Tooltip>
+
+            <Button onClick={handleLogout} color="info" variant="outlined">
+              Logout
+            </Button>
           </Stack>
         </Stack>
       </Toolbar>

@@ -3,7 +3,6 @@ const catchAsync = require('../utils/catchAsync');
 const pick = require('../utils/pick');
 
 const addSymbol = catchAsync(async (req, res) => {
-  console.log(req.body);
   const symbol = await symbolService.createSymbol(req.body);
   res.status(201).send(symbol);
 });
@@ -31,9 +30,23 @@ const getHistories = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const updateSymbolHistory = catchAsync(async (req, res) => {
+  await symbolService.updateSymbolHistory(req.params.symbolId, req.body);
+  res.status(200).send({ message: 'Symbol history updated successfully' });
+});
+
+const updateSymbolPrice = catchAsync(async (req, res) => {
+  const { symbolId } = req.params;
+  const { newPrice } = req.body;
+  const symbol = await symbolService.updateSymbolPrice(symbolId, newPrice);
+  res.status(200).send(symbol);
+});
+
 module.exports = {
   addSymbol,
   getHistories,
   getSymbolInfo,
   removeSymbol,
+  updateSymbolHistory,
+  updateSymbolPrice,
 };

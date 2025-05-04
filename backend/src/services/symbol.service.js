@@ -1,5 +1,4 @@
 const { Symbol, History } = require('../models');
-
 const querySymbols = async (filter, options) => {
   const symbols = await Symbol.paginate(filter, options);
   return symbols;
@@ -10,25 +9,47 @@ const getHistories = async (symbolId) => {
 }
 
 const createSymbol = async (symbolBody) => {
-  const existing = await Symbol.findOne({ code: symbolBody.code });
+  const existing = await Symbol.findOne({ symbol: symbolBody.symbol });
   if (existing) {
     throw new Error('Symbol with this code already exists');
   }
   return Symbol.create(symbolBody);
 };
 
-const updateSysmbolHistory = async (symbolId, historyBody) => {
+const getSymbolById = async (symbolId) => {
+  return Symbol.findById(symbolId);
+};
+
+const updateSymbolHistory = async (symbolId, historyBody) => {
   const symbol = await getSymbolById(symbolId);
   if (!symbol) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Symbol not found');
   }
   const history = await getHistories(symbolId);
-  if (history) {
+  if (history.length > 0) {
     Object.assign(history, historyBody);
     await history.save();
   } else {
-    await History.create(historyBody);
+    await History.create({"symbol": symbolId ,...historyBody});
   }
+}
+
+const updateSymbolPrice = async (symbolId, newPrice, wsService) => {
+  const symbol = await getSymbolById(symbolId);
+  if (!symbol) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Symbol not found');
+  }
+  symbol.price = newPrice;
+  await symbol.save();
+  wsService.broadcast(
+    JSON.stringify({
+      type: 'priceUpdate',
+      symbolId,
+      price: newPrice,
+    })
+  );
+
+  return symbol;
 }
 
 const deleteSymbolById = async (symbolId) => {
@@ -56,7 +77,8 @@ module.exports = {
   createSymbol,
   deleteSymbolById,
   deleteSymbolHistory,
-  updateSysmbolHistory,
+  updateSymbolHistory,
+  updateSymbolPrice,
   querySymbols,
+  getSymbolById,
 }
-
