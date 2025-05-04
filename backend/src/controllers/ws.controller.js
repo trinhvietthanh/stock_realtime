@@ -6,15 +6,15 @@ function initWebSocket(server) {
 
   wss.on('connection', (ws, req) => {
     const urlParams = new URLSearchParams(req.url.split('?')[1]);
-    const symbolId = urlParams.get('symbolId');
-    if (symbolId) {
-      ws.symbolId = symbolId;
+    const symbolCode = urlParams.get('symbol');
+    if (symbolCode) {
+      ws.symbolCode = symbolCode.toLowerCase();
     }
     websocketService.handleConnection(ws);
   });
 
   console.log('WebSocket server initialized');
 }
-  
+
 
 module.exports = initWebSocket;

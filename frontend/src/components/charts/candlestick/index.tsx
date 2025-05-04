@@ -22,7 +22,9 @@ const generateFakeCandle = (prev: Candle): Candle => {
 const GoldChartECharts: React.FC = () => {
     const [data, setData] = useState<Candle[]>([]);
     const [latestPrice, setLatestPrice] = useState<number | null>(null);
+    const [connected, setConnected] = useState(false);
     const timerRef = useRef<number | null>(null);
+
     useEffect(() => {
         const now = Math.floor(Date.now() / 1000) * 1000;
         const candles: Candle[] = [];
@@ -39,13 +41,12 @@ const GoldChartECharts: React.FC = () => {
         }
 
         setData(candles);
-        setLatestPrice(candles[candles.length - 1][2]);
+        
 
         timerRef.current = window.setInterval(() => {
             setData((prev) => {
                 const next = generateFakeCandle(prev[prev.length - 1]);
                 const newData = [...prev.slice(1), next];
-                setLatestPrice(next[2]);
                 return newData;
             });
         }, 1000);
@@ -55,6 +56,39 @@ const GoldChartECharts: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const socket = new WebSocket(`ws://localhost:5000?symbol=${encodeURIComponent("xau/usd")}`);
+    
+        socket.onopen = () => {
+          setConnected(true);
+          socket.send(JSON.stringify({ type: 'subscribePrice' }));
+        };
+    
+        socket.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.type === 'currentPrice' || data.type === 'priceUpdate') {
+                console.log(data.price)
+                setLatestPrice(data.price);
+            }
+          } catch (err) {
+            console.error('Error parsing message:', err);
+          }
+        };
+    
+        socket.onerror = (error) => {
+          console.error('WebSocket error:', error);
+        };
+    
+        socket.onclose = () => {
+          setConnected(false);
+          console.log('WebSocket disconnected');
+        };
+    
+        return () => {
+          socket.close();
+        };
+      }, []);
 
     const getOption = (): echarts.EChartsOption => ({
         tooltip: {
@@ -93,7 +127,7 @@ const GoldChartECharts: React.FC = () => {
     return (
         <div style={{ width: '100%', height: '520px' }}>
             <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px', textAlign: 'center' }}>
-                🪙 XAU/USD Realtime Price: {latestPrice ? `$${latestPrice.toFixed(2)}` : 'Loading...'}
+                🪙 XAU/USD Realtime Price: {latestPrice ? `$${latestPrice}` : 'Loading...'}       <p>Status: {connected ? '🟢 Connected' : '🔴 Disconnected'}</p>
             </div>
             <ReactECharts option={getOption()} style={{ height: '100%' }} />
         </div>

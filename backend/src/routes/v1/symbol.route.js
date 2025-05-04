@@ -15,6 +15,9 @@ router.route('/:symbolId')
   .get(symbolController.getSymbolInfo)
   .patch(symbolController.updateSymbolHistory);
 
+router.route('/:symbolId/price')
+  .patch(symbolController.updateSymbolPrice);
+
 module.exports = router;
 
 /**
@@ -238,6 +241,49 @@ module.exports = router;
  *                 message:
  *                   type: string
  *                   example: Symbol history updated successfully
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /symbol/{symbolId}/price:
+ *   patch:
+ *     summary: Update a symbol's price
+ *     tags: [Symbols]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: symbolId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Symbol ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newPrice:
+ *                 type: string
+ *                 description: New price of the symbol
+ *                 example: "51000"
+ *     responses:
+ *       200:
+ *         description: Symbol price updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Symbol'
  *       400:
  *         $ref: '#/components/responses/BadRequest'
  *       401:

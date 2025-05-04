@@ -1,4 +1,5 @@
 const { Symbol, History } = require('../models');
+const wsService = require('./ws.service');
 const querySymbols = async (filter, options) => {
   const symbols = await Symbol.paginate(filter, options);
   return symbols;
@@ -20,6 +21,11 @@ const getSymbolById = async (symbolId) => {
   return Symbol.findById(symbolId);
 };
 
+const getSymbolByCode = async (symbol) => {
+  const data = await Symbol.findOne({ symbol: symbol})
+  return data;
+}
+
 const updateSymbolHistory = async (symbolId, historyBody) => {
   const symbol = await getSymbolById(symbolId);
   if (!symbol) {
@@ -34,20 +40,15 @@ const updateSymbolHistory = async (symbolId, historyBody) => {
   }
 }
 
-const updateSymbolPrice = async (symbolId, newPrice, wsService) => {
+const updateSymbolPrice = async (symbolId, newPrice) => {
   const symbol = await getSymbolById(symbolId);
   if (!symbol) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Symbol not found');
   }
   symbol.price = newPrice;
   await symbol.save();
-  wsService.broadcast(
-    JSON.stringify({
-      type: 'priceUpdate',
-      symbolId,
-      price: newPrice,
-    })
-  );
+  wsService.broadcastPriceUpdate(symbol.symbol.toLowerCase(), newPrice);
+
 
   return symbol;
 }
@@ -81,4 +82,5 @@ module.exports = {
   updateSymbolPrice,
   querySymbols,
   getSymbolById,
+  getSymbolByCode,
 }
