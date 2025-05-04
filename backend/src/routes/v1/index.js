@@ -17,10 +17,10 @@ const defaultRoutes = [
     path: '/users',
     route: userRoute,
   },
-  // {
-  //   path: '/symbols',
-  //   route: symbolRoute,
-  // }
+  {
+    path: '/symbol',
+    route: symbolRoute,
+  }
 ];
 
 const devRoutes = [
