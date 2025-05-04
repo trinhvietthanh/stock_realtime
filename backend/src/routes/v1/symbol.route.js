@@ -1,6 +1,10 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
+const validate = require('../../middlewares/validate');
+const symbolValidation = require('../../validations/symbol.validation');
+
 const symbolController = require('../../controllers/symbol.controller');
+
 
 const router = express.Router();
 
@@ -8,15 +12,15 @@ router.route('/histories')
   .get(symbolController.getHistories);
 
 router.route('/')
-  .post(symbolController.addSymbol)
+  .post(validate(symbolValidation.addSymbol), symbolController.addSymbol)
   .delete(symbolController.removeSymbol);
 
 router.route('/:symbolId')
-  .get(symbolController.getSymbolInfo)
+  .get(validate(symbolValidation.getSymbol), symbolController.getSymbolInfo)
   .patch(symbolController.updateSymbolHistory);
 
 router.route('/:symbolId/price')
-  .patch(symbolController.updateSymbolPrice);
+  .patch(validate(symbolValidation.updatePrice), symbolController.updateSymbolPrice);
 
 module.exports = router;
 
@@ -274,7 +278,7 @@ module.exports = router;
  *             type: object
  *             properties:
  *               newPrice:
- *                 type: string
+ *                 type: number
  *                 description: New price of the symbol
  *                 example: "51000"
  *     responses:

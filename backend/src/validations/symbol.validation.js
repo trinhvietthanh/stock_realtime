@@ -17,7 +17,14 @@ const getSymbol = {
   })
 }
 
+const updatePrice = {
+  body: Joi.object().keys({
+    newPrice: Joi.number().positive(),
+  })
+}
+
 module.exports = {
   addSymbol,
   getSymbol,
+  updatePrice,
 }
