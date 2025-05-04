@@ -1,9 +1,5 @@
 # React StockRealTime UI
 
-<a href="http://react-pwa.surenatoyan.com/" target="_blank" rel="noreferrer">
- <img src="./public/cover.png" title="React-PWA Starter Kit" alt="React-PWA cover image">
-</a>
-
 ## 🌟 Overview
 
 **GoldChartECharts** is a React-based UI component designed to display real-time gold prices. It leverages modern libraries and tools to provide a seamless and efficient user experience, ensuring accurate and up-to-date market data visualization.
@@ -199,28 +195,3 @@ npm run test:e2e:ui
 Place your environment variables in a `.env` file (prefixed with `VITE_`):
 - Templates available in the `env/` directory
 - Access via `import.meta.env.VITE_VARIABLE_NAME`
-
-## ❓ FAQ
-
-### Why use a UI library?
-A UI library ensures consistency, accessibility, and development efficiency. Without one, teams would need to create and maintain basic components from scratch, leading to inconsistencies and wasted time.
-
-### Why Jotai for state management?
-React applications have different state management needs:
-- **Component-level state**: `useState` for local UI interactions
-- **Data-layer state**: `useQuery` or `Apollo` for remote data
-- **Cross-application state**: Jotai provides a minimal, elegant approach
-
-### What's the difference between components, sections, and pages?
-- **Components**: Reusable UI elements (`Button`, `List`, etc.)
-- **Sections**: Self-contained UI parts with their own logic (`Navigation`, `Sidebar`, etc.)
-- **Pages**: Root route components representing application views
-
-<div>
- <img src="./public/demo-dark.png" width="280" alt="Dark theme demo"> 
- <img src="./public/demo-light.png" width="280" alt="Light theme demo">
-</div>
-
-## 📄 License
-
-[MIT](./LICENSE)
