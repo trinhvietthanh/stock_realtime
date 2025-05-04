@@ -27,7 +27,7 @@ const routes: Array<Routes[number] & CustomRoute> = [
   {
     component: asyncComponentLoader(() => import('@/pages/Welcome')),
     path: '/',
-    title: 'Welcome',
+    title: 'Trang chủ',
     icon: HomeIcon,
     protected: true,
   },

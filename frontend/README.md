@@ -1,7 +1,4 @@
-# React-PWA v3 🚀🎉⚡️
-
-[![Analyses](https://github.com/suren-atoyan/react-pwa/actions/workflows/analyses.yml/badge.svg)](https://github.com/suren-atoyan/react-pwa/actions/workflows/analyses.yml)
-[![E2E Tests](https://github.com/suren-atoyan/react-pwa/actions/workflows/tests:e2e.yml/badge.svg)](https://github.com/suren-atoyan/react-pwa/actions/workflows/tests:e2e.yml)
+# React StockRealTime UI
 
 <a href="http://react-pwa.surenatoyan.com/" target="_blank" rel="noreferrer">
  <img src="./public/cover.png" title="React-PWA Starter Kit" alt="React-PWA cover image">
@@ -9,11 +6,7 @@
 
 ## 🌟 Overview
 
-**React-PWA** is an opinionated starter kit for building Progressive Web Applications with React. Designed to streamline development, it combines essential libraries, components, utilities, and developer tools to accelerate your workflow.
-
-## 💡 Motivation
-
-Building a modern web application requires a robust setup, including routing, UI components, theming, error handling, a structured file system, testing tools, and performance optimizations. **React-PWA** provides a production-ready, minimal, and efficient environment for developers to focus on creating great applications.
+**GoldChartECharts** is a React-based UI component designed to display real-time gold prices. It leverages modern libraries and tools to provide a seamless and efficient user experience, ensuring accurate and up-to-date market data visualization.
 
 ## ✨ Tech Stack & Features
 
@@ -222,16 +215,6 @@ React applications have different state management needs:
 - **Components**: Reusable UI elements (`Button`, `List`, etc.)
 - **Sections**: Self-contained UI parts with their own logic (`Navigation`, `Sidebar`, etc.)
 - **Pages**: Root route components representing application views
-
-### Why TypeScript?
-TypeScript reduces runtime errors, improves code maintainability, and enhances developer experience with static typing and better IDE support.
-
-### Why use Prettier?
-Prettier enforces consistent style across all contributors, reducing discussions in PR reviews and ensuring code quality.
-
-## 🔗 Demo
-
-Check out the [live demo](https://react-pwa.surenatoyan.com/)
 
 <div>
  <img src="./public/demo-dark.png" width="280" alt="Dark theme demo"> 
