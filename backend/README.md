@@ -153,8 +153,7 @@ The environment variables can be found and modified in the `.env` file. They com
 PORT=3000
 
 # URL of the Mongo DB
-MONGODB_URL=mongodb://127.0.0.1:27017/node-boilerplate
-
+MONGODB_URL=mongodb://127.0.0.1:27017/stocks
 # JWT
 # JWT secret key
 JWT_SECRET=thisisasamplesecret
@@ -164,7 +163,6 @@ JWT_ACCESS_EXPIRATION_MINUTES=30
 JWT_REFRESH_EXPIRATION_DAYS=30
 
 # SMTP configuration options for the email service
-# For testing, you can use a fake SMTP service like Ethereal: https://ethereal.email/create
 SMTP_HOST=email-server
 SMTP_PORT=587
 SMTP_USERNAME=email-server-username

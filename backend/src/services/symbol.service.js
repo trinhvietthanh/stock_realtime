@@ -44,7 +44,7 @@ const updateSymbolPrice = async (symbolId, newPrice) => {
   }
   symbol.price = newPrice;
   await symbol.save();
-  wsService.broadcastPriceUpdate(symbol.symbol.toLowerCase(), newPrice);
+  await wsService.publishPrice(symbol.symbol.toLowerCase(), newPrice);
 
   return symbol;
 };
@@ -56,7 +56,8 @@ const updateSymbolPriceByCode = async (code, newPrice) => {
   }
   symbol.price = newPrice;
   await symbol.save();
-  wsService.broadcastPriceUpdate(symbol.symbol.toLowerCase(), newPrice);
+  await wsService.publishPrice(code, newPrice);
+
 
   return symbol;
 };
@@ -118,7 +119,7 @@ const fetchGoldPrice = async () => {
 
 // Poll every 15 seconds (or increase to avoid rate limit)
 // setInterval(fetchGoldPrice, 15000);
-// fetchGoldPrice()
+fetchGoldPrice()
 module.exports = {
   createSymbol,
   deleteSymbolById,

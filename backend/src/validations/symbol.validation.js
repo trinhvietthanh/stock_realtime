@@ -4,6 +4,7 @@ const addSymbol = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     symbol: Joi.string().required(),
+    price: Joi.number().positive(),
     image: Joi.string(),
     vendorApi: Joi.string(),
   })

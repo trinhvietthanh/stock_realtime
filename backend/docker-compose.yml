@@ -1,16 +1,40 @@
 version: '3'
 
 services:
-  node-app:
+ node-app:
     build: .
     image: node-app
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/stocks
+      - REDIS_HOST=redis
     ports:
       - '5000:5000'
+    depends_on:
+      - mongodb
     volumes:
       - .:/usr/src/node-app
     networks:
       - node-network
-    command: yarn dev -L
+
+mongodb:
+  image: mongo:4.2.1-bionic
+  ports:
+    - '27017:27017'
+  volumes:
+    - dbdata:/data/db
+  networks:
+    - node-network
+
+redis:
+  image: "redis"
+  ports:
+  - "6379:6379"
+  expose:
+  - 6379
+
+volumes:
+  dbdata:
+
 
 networks:
   node-network:

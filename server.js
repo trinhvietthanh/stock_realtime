@@ -12,7 +12,6 @@ app.use(bodyParser.json());
 app.post("/add", async (req, res) => {
   try {
     const { key, value } = req.body;
-    console.log(req.body);
     console.log(value);
     await lib.write(key, value);
     res.send("Insert a new record successfully!");

@@ -8,6 +8,7 @@ const passport = require('passport');
 const httpStatus = require('http-status');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
+const redis =  require('./config/redis');
 const { jwtStrategy } = require('./config/passport');
 const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
@@ -26,7 +27,6 @@ app.use(helmet());
 
 // parse json request body
 app.use(express.json());
-
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 

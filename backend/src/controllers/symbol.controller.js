@@ -1,6 +1,8 @@
 const { symbolService } = require('../services');
 const catchAsync = require('../utils/catchAsync');
 const pick = require('../utils/pick');
+const redisClient = require("../config/redis");
+const logger = require('../config/logger');
 
 const addSymbol = catchAsync(async (req, res) => {
   const symbol = await symbolService.createSymbol(req.body);
@@ -9,22 +11,39 @@ const addSymbol = catchAsync(async (req, res) => {
 
 const getSymbol = catchAsync(async (req, res) => {
   const { symbol } = req.query;
+  const cacheKey = `symbols:${symbol || ''}:${req.query.page || 1}:${req.query.limit || 10}`;
+ const cachedSymbols = await redisClient.get(cacheKey);
+ if (cachedSymbols) {
+   return res.send(JSON.parse(cachedSymbols));  // Return the cached data
+ }
 
-  const filter = {};
+ const filter = {};
   if (symbol) {
     filter.symbol = { $regex: symbol, $options: 'i' };
   }
 
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const symbols = await symbolService.querySymbols(filter, options);
+  await redisClient.setex(cacheKey, 300, JSON.stringify(symbols));
+
   res.send(symbols);
 });
 
 const getSymbolInfo = catchAsync(async (req, res) => {
-  const symbol = await symbolService.getSymbolById(req.params.symbolId);
+  const { symbolId } = req.params;
+
+  const cachedSymbol = await redisClient.get(`symbolInfo:${symbolId}`);
+  logger.info(cachedSymbol);
+
+  if (cachedSymbol) {
+    return res.send(JSON.parse(cachedSymbol));  // Return the cached data
+  }
+  const symbol = await symbolService.getSymbolById(symbolId);
   if (!symbol) {
     return res.status(404).send({ message: 'Symbol not found' });
   }
+  await redisClient.setex(`symbolInfo:${symbolId}`, 300, JSON.stringify(symbol));
+
   res.send(symbol);
 });
 
