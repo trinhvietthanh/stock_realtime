@@ -41,7 +41,7 @@ const GoldChartECharts: React.FC = () => {
         }
 
         setData(candles);
-        
+
 
         timerRef.current = window.setInterval(() => {
             setData((prev) => {
@@ -57,38 +57,38 @@ const GoldChartECharts: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const socket = new WebSocket(`ws://localhost:5000?symbol=${encodeURIComponent("xau/usd")}`);
-    
+        const socket = new WebSocket(`${import.meta.env.VITE_WEBSOCKET}?symbol=${encodeURIComponent("xau/usd")}`);
+
         socket.onopen = () => {
-          setConnected(true);
-          socket.send(JSON.stringify({ type: 'subscribePrice' }));
+            setConnected(true);
+            socket.send(JSON.stringify({ type: 'subscribePrice' }));
         };
-    
+
         socket.onmessage = (event) => {
-          try {
-            const data = JSON.parse(event.data);
-            if (data.type === 'currentPrice' || data.type === 'priceUpdate') {
-                console.log(data.price)
-                setLatestPrice(data.price);
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === 'currentPrice' || data.type === 'priceUpdate') {
+                    console.log(data.price)
+                    setLatestPrice(data.price);
+                }
+            } catch (err) {
+                console.error('Error parsing message:', err);
             }
-          } catch (err) {
-            console.error('Error parsing message:', err);
-          }
         };
-    
+
         socket.onerror = (error) => {
-          console.error('WebSocket error:', error);
+            console.error('WebSocket error:', error);
         };
-    
+
         socket.onclose = () => {
-          setConnected(false);
-          console.log('WebSocket disconnected');
+            setConnected(false);
+            console.log('WebSocket disconnected');
         };
-    
+
         return () => {
-          socket.close();
+            socket.close();
         };
-      }, []);
+    }, []);
 
     const getOption = (): echarts.EChartsOption => ({
         tooltip: {

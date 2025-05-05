@@ -1,0 +1,13 @@
+services:
+  fe-app:
+    build: .
+    image: fe-app
+    ports:
+      - '4173:4173'
+    networks:
+      - backend_node-network
+    command: yarn preview
+
+networks:
+  backend_node-network:
+    external: true

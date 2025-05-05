@@ -1,10 +1,9 @@
 import ThemeIcon from '@mui/icons-material/InvertColors';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Button, IconButton, Stack, Toolbar, Tooltip } from '@mui/material';
 
 import { useNotifications } from '@toolpad/core/useNotifications';
 
-import { repository, title } from '@/config';
 import { useHotKeysDialog } from '@/sections/HotKeys/hooks';
 import { useSidebar } from '@/sections/Sidebar/hooks';
 import { useThemeMode } from '@/theme';
@@ -53,7 +52,7 @@ function Header() {
               <MenuIcon />
             </IconButton>
             <Button onClick={showNotification} color="info">
-              {title}
+              Giá vàng
             </Button>
           </Stack>
           <Stack direction="row" alignItems="center" gap={1}>
@@ -67,7 +66,7 @@ function Header() {
                 alt + k
               </HotKeysButton>
             </Tooltip>
-         
+
             <Tooltip title="Switch theme" arrow>
               <IconButton
                 color="info"

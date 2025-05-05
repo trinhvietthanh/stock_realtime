@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Form, Input, Button, Card, Typography } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
@@ -13,7 +13,7 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: unknown) => {
     try {
       const response = await axios.post('http://localhost:5000/v1/auth/login', values);
       const { tokens } = response.data;
