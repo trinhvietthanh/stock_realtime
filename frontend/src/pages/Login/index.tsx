@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Form, Input, Button, Card, Typography } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-
 const Login = () => {
   const navigate = useNavigate();
 
@@ -15,7 +14,7 @@ const Login = () => {
 
   const onFinish = async (values: unknown) => {
     try {
-      const response = await axios.post('http://localhost:5000/v1/auth/login', values);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/auth/login`, values);
       const { tokens } = response.data;
       localStorage.setItem('accessKey', tokens.access.token);
       localStorage.setItem('refreshKey', tokens.refresh.token);
@@ -26,7 +25,7 @@ const Login = () => {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: unknown) => {
     console.log('Failed:', errorInfo);
   };
 

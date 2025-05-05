@@ -1,6 +1,7 @@
 import GoldChartECharts from '@/components/charts/candlestick';
 import { FullSizeCentered } from '@/components/styled';
 import useOrientation from '@/hooks/useOrientation';
+import { Box } from '@mui/material';
 
 
 
@@ -11,9 +12,12 @@ function Welcome() {
   return (
     <>
       <meta name="title" content="Welcome" />
-      <FullSizeCentered flexDirection={isPortrait ? 'column' : 'row'}>
 
-        <GoldChartECharts />
+      <FullSizeCentered flexDirection={isPortrait ? 'column' : 'row'}>
+        <Box flex={1}>
+          <GoldChartECharts />
+        </Box>
+
       </FullSizeCentered>
     </>
   );

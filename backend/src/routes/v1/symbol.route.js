@@ -5,22 +5,22 @@ const symbolValidation = require('../../validations/symbol.validation');
 
 const symbolController = require('../../controllers/symbol.controller');
 
-
 const router = express.Router();
 
-router.route('/histories')
-  .get(symbolController.getHistories);
+router.route('/histories').get(symbolController.getHistories);
 
-router.route('/')
-  .post(validate(symbolValidation.addSymbol), symbolController.addSymbol)
-  .delete(symbolController.removeSymbol);
+router
+  .route('/')
+  .get(symbolController.getSymbol)
+  .post(auth('manageSymbols'), validate(symbolValidation.addSymbol), symbolController.addSymbol)
+  .delete(auth('manageSymbols'), symbolController.removeSymbol);
 
-router.route('/:symbolId')
+router
+  .route('/:symbolId')
   .get(validate(symbolValidation.getSymbol), symbolController.getSymbolInfo)
-  .patch(symbolController.updateSymbolHistory);
+  .patch(auth('manageSymbols'), symbolController.updateSymbolHistory);
 
-router.route('/:symbolId/price')
-  .patch(validate(symbolValidation.updatePrice), symbolController.updateSymbolPrice);
+router.route('/:symbolId/price').patch(validate(symbolValidation.updatePrice), symbolController.updateSymbolPrice);
 
 module.exports = router;
 
@@ -132,6 +132,64 @@ module.exports = router;
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
  *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *   get:
+ *     summary: Get symbols
+ *     tags: [Symbols]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: symbol
+ *         schema:
+ *           type: string
+ *       - in: query
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *         description: sort by query in the form of field:desc/asc (ex. name:asc)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         default: 10
+ *         description: Maximum number of users
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         description: Page number
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Symbol'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
  *         $ref: '#/components/responses/Forbidden'
  */
 

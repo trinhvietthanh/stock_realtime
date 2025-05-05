@@ -4,7 +4,6 @@ const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const symbolRoute = require('./symbol.route');
 const config = require('../../config/config');
-const path = require('path');
 
 const router = express.Router();
 

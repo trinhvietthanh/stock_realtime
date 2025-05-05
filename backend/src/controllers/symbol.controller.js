@@ -7,6 +7,19 @@ const addSymbol = catchAsync(async (req, res) => {
   res.status(201).send(symbol);
 });
 
+const getSymbol = catchAsync(async (req, res) => {
+  const { symbol } = req.query;
+
+  const filter = {};
+  if (symbol) {
+    filter.symbol = { $regex: symbol, $options: 'i' };
+  }
+
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const symbols = await symbolService.querySymbols(filter, options);
+  res.send(symbols);
+});
+
 const getSymbolInfo = catchAsync(async (req, res) => {
   const symbol = await symbolService.getSymbolById(req.params.symbolId);
   if (!symbol) {
@@ -46,6 +59,7 @@ module.exports = {
   addSymbol,
   getHistories,
   getSymbolInfo,
+  getSymbol,
   removeSymbol,
   updateSymbolHistory,
   updateSymbolPrice,

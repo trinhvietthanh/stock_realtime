@@ -8,6 +8,4 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --pure-lockfile
 
-RUN yarn build
-
-EXPOSE 4173
+EXPOSE 5173

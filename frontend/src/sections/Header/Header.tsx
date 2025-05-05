@@ -10,6 +10,7 @@ import { useThemeMode } from '@/theme';
 
 import { HotKeysButton } from './styled';
 import { getRandomJoke } from './utils';
+import SearchBar from '@/components/search';
 
 function Header() {
   const { themeMode, toggle: toggleThemeMode } = useThemeMode();
@@ -55,6 +56,9 @@ function Header() {
               Giá vàng
             </Button>
           </Stack>
+
+          <SearchBar onSearch={(query) => console.log("Search for:", query)} />
+
           <Stack direction="row" alignItems="center" gap={1}>
             <Tooltip title="Hot keys" arrow>
               <HotKeysButton

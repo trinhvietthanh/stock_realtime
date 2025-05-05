@@ -3,10 +3,9 @@ services:
     build: .
     image: fe-app
     ports:
-      - '4173:4173'
+      - '5173:5173'
     networks:
       - backend_node-network
-    command: yarn preview
 
 networks:
   backend_node-network:

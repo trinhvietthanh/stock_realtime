@@ -129,7 +129,7 @@ const GoldChartECharts: React.FC = () => {
             <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px', textAlign: 'center' }}>
                 🪙 XAU/USD Realtime Price: {latestPrice ? `$${latestPrice}` : 'Loading...'}       <p>Status: {connected ? '🟢 Connected' : '🔴 Disconnected'}</p>
             </div>
-            <ReactECharts option={getOption()} style={{ height: '100%' }} />
+            {/* <ReactECharts option={getOption()} style={{ height: '100%' }} /> */}
         </div>
     );
 };
